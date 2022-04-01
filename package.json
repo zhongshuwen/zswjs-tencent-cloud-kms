@@ -1,0 +1,64 @@
+{
+  "version": "0.1.0",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "src"
+  ],
+  "engines": {
+    "node": ">=10"
+  },
+  "scripts": {
+    "start": "tsdx watch",
+    "build": "tsdx build",
+    "test": "tsdx test",
+    "lint": "tsdx lint",
+    "prepare": "tsdx build",
+    "size": "size-limit",
+    "analyze": "size-limit --why"
+  },
+  "peerDependencies": {},
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsdx lint"
+    }
+  },
+  "prettier": {
+    "printWidth": 80,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
+  "name": "zswjs-tencent-cloud-kms",
+  "author": "中数文科技有限公司",
+  "module": "dist/zswjs-tencent-cloud-kms.esm.js",
+  "size-limit": [
+    {
+      "path": "dist/zswjs-tencent-cloud-kms.cjs.production.min.js",
+      "limit": "500 KB"
+    },
+    {
+      "path": "dist/zswjs-tencent-cloud-kms.esm.js",
+      "limit": "500 KB"
+    }
+  ],
+  "devDependencies": {
+    "@size-limit/preset-small-lib": "^7.0.8",
+    "@types/jsrsasign": "^10.2.1",
+    "husky": "^7.0.4",
+    "size-limit": "^7.0.8",
+    "tsdx": "^0.14.1",
+    "tslib": "^2.3.1",
+    "typescript": "^4.6.3"
+  },
+  "dependencies": {
+    "@ampretia/x509": "^0.4.8",
+    "gmsm-sm3js": "^0.1.7",
+    "jsrsasign": "^10.5.14",
+    "jsrsasign-util": "^1.0.5",
+    "tencentcloud-sdk-nodejs": "^4.0.316",
+    "zswjs": "^1.3.5"
+  }
+}
