@@ -9,7 +9,7 @@ import * as ser from 'zswjs/dist/zswjs-serialize';
 import * as numeric from 'zswjs/dist/zswjs-numeric';
 import type {ClientConfig} from 'tencentcloud-sdk-nodejs/tencentcloud/common/interface';
 import { getZSWPublicKeyStringForTencentKMSKeyId, signDigestTencentKMS } from './apiHelper';
-
+import { sha256, IS_NODE } from '../util';
 interface KeyProviderCachedKey {
     ZswChainPublicKeyString: string;
     KeyId: string;
@@ -65,11 +65,18 @@ export class TencentCloudKMSignatureProvider implements SignatureProvider {
         signBuf.pushArray(ser.hexToUint8Array(chainId));
         signBuf.pushArray(serializedTransaction);
         if (serializedContextFreeData) {
-            signBuf.pushArray(new Uint8Array(await crypto.subtle.digest('SHA-256', serializedContextFreeData.buffer)));
+            if(IS_NODE){
+
+                signBuf.pushArray(sha256(serializedContextFreeData));
+            }else{
+
+            signBuf.pushArray(await sha256(serializedContextFreeData));
+            }
         } else {
             signBuf.pushArray(new Uint8Array(32));
         }
-        const digest = new Uint8Array(await crypto.subtle.digest('SHA-256', signBuf.asUint8Array().slice().buffer));
+        
+        const digest =IS_NODE? sha256(signBuf.asUint8Array().slice()):(await sha256(signBuf.asUint8Array().slice()));
 
         const signatures = [] as string[];
         for (const key of requiredKeys) {
