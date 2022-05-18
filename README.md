@@ -4,7 +4,7 @@
 
 ## Usage
 ```js
-const zswjs = require("zswjs");
+const { JsonRpc, API } = require("zswjs");
 const { TencentCloudKMSignatureProvider } = require("zswjs-tencent-cloud-kms");
 
 function signTransactionDemo() {
@@ -14,7 +14,7 @@ function signTransactionDemo() {
     credential: {
       secretId: "<your-secret-id>",
       secretKey: "<your-secret-key>",
-    }
+    },
     region: "<your-region", // example: "ap-shanghai"
   };
   const signatureProvider = new TencentCloudKMSignatureProvider(clientConfig, [
