@@ -7,7 +7,7 @@ const IS_NODE =
 
 const sha256: any = IS_NODE
   ? (() => {
-      const crypto = require('crpyto');
+      const crypto = require('crypto');
 
       return (data: any) =>
         crypto
@@ -16,7 +16,7 @@ const sha256: any = IS_NODE
           .digest();
     })()
     //@ts-ignore
-  : (data: any) => new Uint8Array(crypto.subtle.digest('SHA-256', data));
+  : async (data: any) => new Uint8Array(await crypto.subtle.digest('SHA-256', data));
 
 
 export {sha256,IS_NODE};
