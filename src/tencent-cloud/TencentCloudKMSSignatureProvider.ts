@@ -26,6 +26,9 @@ export class TencentCloudKMSignatureProvider implements SignatureProvider {
     private keyCacheTime : number;
     constructor(inClientConfig: ClientConfig, keyIds: string[] = [], keyCacheTime: number = -1){
         this.clientConfig = inClientConfig;
+        if(!this.clientConfig.profile){
+            this.clientConfig.profile = {};
+        }
         this.unprocessedKeys = new Set(keyIds);
         this.keyCacheTime = keyCacheTime;
     }
@@ -51,7 +54,9 @@ export class TencentCloudKMSignatureProvider implements SignatureProvider {
                 this.unprocessedKeys.add(v);
             }
         }
-        for(let upk in this.unprocessedKeys){
+
+        const unprocessedKeysArray = Array.from(this.unprocessedKeys);
+        for(let upk of unprocessedKeysArray){
             await this.addKeyByIdToCache(upk);
         }
         return Array.from(this.keyToIdCache.keys());
